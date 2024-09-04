@@ -1,0 +1,29 @@
+
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Sample data
+data = {
+    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female'],
+    'Age': [25, 30, 35, 20, 40, 45]
+}
+
+# Create a pandas DataFrame
+df = pd.DataFrame(data)
+
+# Categorical variable (Gender) bar chart
+plt.figure(figsize=(8, 6))
+df['Gender'].value_counts().plot(kind='bar')
+plt.title('Distribution of Gender')
+plt.xlabel('Gender')
+plt.ylabel('Count')
+plt.show()
+
+# Continuous variable (Age) bar chart
+plt.figure(figsize=(8, 6))
+df['Age'].plot(kind='hist', bins=5)
+plt.title('Distribution of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.show()
