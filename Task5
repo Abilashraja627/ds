@@ -1,0 +1,64 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the dataset
+df = pd.read_csv('traffic_accidents.csv')
+
+# Data preprocessing
+# Convert date-time columns to datetime format
+df['Date'] = pd.to_datetime(df['Date'])
+
+# Extract time of day, day of week, month, and year from the Date column
+df['Hour'] = df['Date'].dt.hour
+df['Day'] = df['Date'].dt.dayofweek
+df['Month'] = df['Date'].dt.month
+df['Year'] = df['Date'].dt.year
+
+# Analyze patterns related to road conditions, weather, and time of day
+# Count the number of accidents by road condition
+road_condition_counts = df['Road_Condition'].value_counts()
+
+# Plot a bar chart for road condition counts
+plt.figure(figsize=(10, 6))
+sns.barplot(x=road_condition_counts.index, y=road_condition_counts.values)
+plt.title('Number of Accidents by Road Condition')
+plt.xlabel('Road Condition')
+plt.ylabel('Number of Accidents')
+plt.show()
+
+# Count the number of accidents by weather condition
+weather_condition_counts = df['Weather_Condition'].value_counts()
+
+# Plot a bar chart for weather condition counts
+plt.figure(figsize=(10, 6))
+sns.barplot(x=weather_condition_counts.index, y=weather_condition_counts.values)
+plt.title('Number of Accidents by Weather Condition')
+plt.xlabel('Weather Condition')
+plt.ylabel('Number of Accidents')
+plt.show()
+
+# Count the number of accidents by hour of the day
+hour_counts = df['Hour'].value_counts()
+
+# Plot a line chart for hourly accident counts
+plt.figure(figsize=(10, 6))
+plt.plot(hour_counts.index, hour_counts.values)
+plt.title('Number of Accidents by Hour of the Day')
+plt.xlabel('Hour')
+plt.ylabel('Number of Accidents')
+plt.xticks(range(24))
+plt.show()
+
+# Visualize accident hotspots
+# Group accidents by latitude and longitude and count the number of accidents at each location
+hotspots = df.groupby(['Latitude', 'Longitude']).size().reset_index(name='counts')
+
+# Plot the hotspots on a scatter plot
+plt.figure(figsize=(10, 6))
+plt.scatter(hotspots['Longitude'], hotspots['Latitude'], c=hotspots['counts'], cmap='Reds')
+plt.title('Accident Hotspots')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.colorbar(label='Number of Accidents')
+plt.show()
